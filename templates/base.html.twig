@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="integration avec bootstrap">
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <style>
+
+                @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
+                .dropdown-toggle::after {
+                    display: none;
+                }           
+            </style>
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+            <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+                <div class="container">
+                    <a class="navbar-brand" href="#">CasAuth</a>
+                    <a class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" ></span>
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                        <a class="nav-link {{ app.request.get('_route') == 'homepage' ? 'active' }}" aria-current="page" href="/">Home</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                        <form class="d-flex ">
+								{% if not is_granted('ROLE_ANON') %}
+									{% if app.user.Username is not defined or app.user.Username is null %}
+										<a class="nav-link " href="/login">Connexion</a>
+									{% elseif app.user.Username %}
+										<div class="dropdown">
+
+
+										<button class="dropdown-toggle btn " role="button" data-bs-toggle="dropdown" aria-expanded="false">
+												<div class="avatar-container">
+													<img src="https://ui-avatars.com/api/?name={{ app.user.Username|url_encode }}&size=30&background=random&rounded=true&bold=true" alt="{{ app.user.Username }} Avatar">
+												</div>
+
+											
+											{% endif %}
+
+
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+											<li>
+											{% if is_granted('ROLE_VISIT') %}
+												{# {% if app.user.eduPersonPrimaryAffiliation is same as ('student') or app.user.eduPersonPrimaryAffiliation is same as ('alum') %} #}
+													<a class="dropdown-item" href="{{ path('app_user') }}">
+													<i class="fa-brands fa-wpforms mr-1"></i>
+													Formulaire d’inscription</a>
+												{# {% endif %} #}
+											{% endif %}
+											{% if is_granted('ROLE_USER') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+													<a class="dropdown-item" href="{{ path('admin') }}">
+													<i class="fa-solid fa-lock mr-1"></i>
+													Admin</a>
+											{% endif %}
+											{% if is_granted('ROLE_USER') %}
+												<a class="dropdown-item" href="/profile/show">
+												<i class="fa-solid fa-gear mr-1"></i>
+												Mon Compte</a>
+                           					{% endif %}
+												
+												<a class="dropdown-item" href="/logout">
+												<i class="fa-solid fa-power-off mr-1"></i>
+												Déconnexion</a>
+													
+											</li>
+										</ul>
+									</div>
+								{% else %}
+									<a class="nav-link" href="/login">Connexion</a>
+								{% endif %}
+							</form>
+                            </li>
+                    </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+
+    <body>
+        <style>
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+                * {
+                    font-family: 'Poppins', sans-serif;
+                }
+
+                a, a:hover, a:visited, a:active {
+                color: inherit;
+                text-decoration: none;
+                }
+
+        </style>
+
+
+
+
+
+
+
+
+
+
+    </body>
+  
+{% block body %}{% endblock %}
+  
+
+  
+  <script src="{{ asset('js/script.js') }}" ></script>
+</html>

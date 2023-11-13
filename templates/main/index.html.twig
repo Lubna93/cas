@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AproposController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		{# <h1>Hello {{ controller_name }}!</h1> #}
+		
+		{# <h1>
+			{{iaAnnuellesV2.cpam}}
+		</h1> #}
+{# <h3>ss: {{ iaAnnuellesV2.dateIAA }}</h3> #}
+<h2>		
+
+		{# {% for typeAutreEtbAnneeEnCours in iaAnnuellesV2 %}
+		<h3>ss: {{ typeAutreEtbAnneeEnCours }}</h3>
+		{% endfor %} #}
+
+		{# {% for anneeIAA in iaAnnuellesV2.stdClass  %}
+			<p>Type de bdd: {{ anneeIAA }}</p>
+		{% endfor %} #}
+
+		{# {{ attribute(iaAnnuellesV2, aideFinanciere ) }}
+
+		{% for aideFinanciere in iaAnnuellesV2 %}
+		<h3>
+		{{ attribute(iaAnnuellesV2, aideFinanciere ) }}
+		</h3>
+		{% endfor %} #}
+
+		{# {{ attribute(iaAnnuellesV2, {autreEtbAnneeEnCours} ) }} #}
+
+		{# {{app.user.supannEtuId}} #}
+
+		{# {{ dump(iaAnnuellesV2.anneeDernierDiplome) }}
+		{{app.user.supannEtuId}} #}
+		{{utilisateur}}
+		{{iaAnnuellesV2.anneeIAA}}
+		{{iaAnnuellesV2.autreEtbAnneeEnCours}}
+		{{iaAnnuellesV2.typeSISEDernierDiplomeExt.libTypDiplomeSise}}
+		{{iaEtapesV2.diplome.libLongDiplome}}
+		{{app.user}}
+		{# {{anneeIAA}} #}
+</h2>
+	</div>
+
+
+{% endblock %}
+

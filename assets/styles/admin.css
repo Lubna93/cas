@@ -1,0 +1,22 @@
+/* body {
+    background: #fff;
+}
+
+aside.sidebar {
+    background-color: #F7F7FF;
+} */
+
+
+span.logo-custom {
+    color: #4558b8;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+div.content-header-title {
+    color: #6174d1;
+}
+
+h1.title {
+    color: #6174d1;
+}

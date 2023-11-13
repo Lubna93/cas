@@ -1,0 +1,30 @@
+{# templates/admin/index.html.twig #}
+
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}
+    Le Tableau de Bord
+{% endblock %}
+
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascript %}
+      {{ encore_entry_script_tags('app') }}.
+    {% endblock %}
+
+{% block main %}
+<style>
+
+
+
+</style>
+
+
+
+  <script src="{{ asset('assets/app.js') }}" ></script>
+  <script src="{{ asset('public/build/app.js') }}" ></script>
+
+    
+{% endblock %}

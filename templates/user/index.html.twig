@@ -1,0 +1,339 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire d’adhésion{% endblock %}
+{% form_theme user_form 'bootstrap_5_layout.html.twig' %}
+
+
+{% block body %}
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap');
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+
+hr {
+  color: var(--titre2);
+  padding-top: 0.3rem;
+}
+h3 {
+    color: var(--vert);
+    padding-bottom: 2.5rem;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight:bolder;
+}
+
+h4 {
+  color: var(--blue);
+  padding-top: 1rem;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+#background {
+    padding-bottom: 2rem;
+    border-radius: 2rem;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+    transition: 0.5s box-shadow;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+}
+#background:hover {
+    background-color: var(--background3);
+    cursor: pointer;
+    -webkit-transition: background-color 0.5s ease-out;
+    -moz-transition: background-color 0.5s ease-out;
+    -o-transition: background-color 0.5s ease-out;
+    transition: background-color 0.5s ease-out;
+  }
+
+  .invisible {
+    padding: -4rem;
+    margin: -10rem;
+  }
+
+</style>
+<div class="container">
+
+<br>
+    <h3>
+      Formulaire d’adhésion
+    </h3>
+{% if app.user.supannEtuId is not null %}
+
+
+    <br>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div><br>
+        {% endfor %}
+
+        {% for message in app.flashes('info') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div><br>
+        {% endfor %}
+{{ form_start(user_form) }}
+
+        <div class="row g-4" id="background">
+
+                  <h4> Informations personnelles </h4>
+
+                  <div class="col-md-4">
+  
+                    {{ form_row(user_form.uid, { label: 'UID :*',
+                     required: 'true',
+                      attr: {
+                      value : app.user.uid,
+                      readonly: true
+                      }            
+                    }) }}
+                  </div>
+
+                  <div class="col-md-4">
+                    {{ form_row(user_form.nom, { label: 'Nom :*',
+                      attr: {
+                        value : app.user.sn | join,
+                        readonly: true
+                        }            
+                    }) }}
+                  </div>
+
+                  <div class="col-md-4">
+                      {{ form_row(user_form.prenom, { label: 'Prenom :*',
+                      attr: {
+                        value : app.user.givenName,
+                        readonly: true
+                        }            
+                    }) }}
+                  </div>
+
+      {% if app.user.eduPersonPrimaryAffiliation is same as ('student') %}
+                  <div class="col-md-6">
+                    {{ form_row(user_form.mailperso, {
+                      label: 'Courriel Personnel :',
+                      'placeholder' : 'youremail@example.com',
+                      attr: {
+                        value: app.user.supannMailPerso,
+                      }
+                      }) }}
+                  </div>
+
+                  <div class="col-md-6">
+                    {{ form_row(user_form.tel, { label: 'Téléphone :',
+                    attr: { value : app.user.mobile },
+                    'required' : false}) }}
+                  </div>
+
+                  <div class="col-md-6">
+                    {{ form_row(user_form.mail, {
+                      label: 'Courriel UM3 : *',
+                      attr: {
+                        value : app.user.mail,
+                        readonly: true
+                        }
+                    }) }}
+                  </div>
+      {% endif %}
+      {% if app.user.eduPersonPrimaryAffiliation is same as ('alum') %}
+                  <div class="col-md-6">
+                    {{ form_row(user_form.mailperso, {
+                      label: 'Courriel Personnel : *',
+                      required: 'true',
+                      'placeholder' : 'youremail@example.com',
+                      attr: {
+                        value: app.user.supannMailPerso,
+                      }
+                      }) }}
+                  </div>
+
+                  <div class="col-md-6">
+                    {{ form_row(user_form.tel, { label: 'Téléphone : *',
+                    attr: { value : app.user.mobile },
+                    required: 'true',
+                    'required' : false}) }}
+                  </div>
+
+                  <div class="invisible" >
+                    {{ form_row(user_form.mail, {
+                      label: 'Courriel UM3 : *',
+                      attr: {
+                        value : app.user.mail,
+                        readonly: true
+                        }
+                    }) }}
+                  </div>
+      {% endif %}
+
+                  <div class="col-md-6">
+                    {{ form_row(user_form.datenais, { label: 'Date de naissance : *',
+                    attr: {
+                      value : app.user.attUpvDateNaiss,
+                      readonly: true
+                      }
+                    }) }}
+                  </div>
+          
+        </div>
+
+
+                <div class="invisible" >
+
+                      {{ form_row(user_form.genre,{
+                      attr: { value : app.user.supannCivilite }
+                      }) }}
+
+                       {{ form_row(user_form.codEtu,{
+                      attr: { value : app.user.supannEtuId }
+                      }) }}
+  
+                      {{ form_row(user_form.nationalite, {
+                      attr: { value : iaAnnuellesV2.paysDernierDiplomeExt.libPays}
+                      }) }}
+
+                      {{ form_row(user_form.echangeInter, {
+                      attr: { value: iaAnnuellesV2.prgEchange}
+                      }) }}
+
+                </div>
+
+
+        <div class="row g-4" id="background">
+                  <h4> Adresse </h4>
+
+      {% if app.user.eduPersonPrimaryAffiliation is same as ('student') %}
+                  <div class="invisible">
+                    {{ form_row(user_form.adresseFixe, { label: 'Adresse Fixe :  ',
+                    help: 'Si vous souhaitez ajouter une adresse fix!',
+                    }) }}
+                  </div>
+          
+                  <div class="col-md-12 ">
+                    {{ form_row(user_form.adresseActu, {
+                      label: 'Adresse Actuelle : ',
+                      required: 'true',
+                      readonly: true,
+                      attr: { value : app.user.postalAddress }
+                    }) }}
+                  </div>
+      {% endif %}
+
+      {% if app.user.eduPersonPrimaryAffiliation is same as ('alum') %}
+                  <div class="col-md-6">
+                    {{ form_row(user_form.adresseFixe, { label: 'Adresse Fixe :  ',
+                    help: 'Si vous souhaitez ajouter une adresse fix!',
+                    }) }}
+                  </div>
+          
+                  <div class="col-md-6 ">
+                    {{ form_row(user_form.adresseActu, {
+                      label: 'Adresse Actuelle : ',
+                      required: 'true',
+                      readonly: true,
+                      attr: { value : app.user.postalAddress }
+                    }) }}
+                  </div>
+      {% endif %}
+        </div>
+
+        <br><br>
+
+
+        <div class="row g-4" id="background">
+          <h4>Statut :</h4>
+            <div class="col">    
+
+
+        <div class="row g-4">
+
+
+      {% if app.user.eduPersonPrimaryAffiliation is same as ('student') %}
+
+                <div class="col-md-6">
+                  {{ form_row(user_form.diplomePrepare, { label: 'Diplôme préparé : '}) }}
+                </div>
+
+                <div class="col-md-6">
+                  {{ form_row(user_form.derniereDiplome, { label: 'Dernier Diplôme obtenu : ',
+                  attr: {
+                    value: iaAnnuellesV2.typeSISEDernierDiplomeExt.libTypDiplomeSise,
+                    readonly: true}
+                  }) }}
+                </div>
+
+                <div class="invisible" >
+                  {{ form_row(user_form.derniereFiliereHors, { label: 'Dernière filière hors UM3 : '}) }}  
+                </div>
+
+      {% endif %}
+
+      {% if app.user.eduPersonPrimaryAffiliation is same as ('alum') %}
+
+                <div class="col-md-6">
+                  {{ form_row(user_form.derniereDiplome, { label: 'Dernier Diplôme obtenu : ',
+                  attr: {value: iaAnnuellesV2.typeSISEDernierDiplomeExt.libTypDiplomeSise}
+                  }) }}
+                </div>
+
+
+                <div class="col-md-6">
+                  {{ form_row(user_form.derniereFiliereHors, { label: 'Dernière filière hors UM3 : '}) }}
+                </div>
+
+                <div class="invisible" >
+                    {{ form_row(user_form.diplomePrepare, { label: 'Diplôme préparé : '}) }}
+                </div>
+
+      {% endif %}
+
+        </div>
+
+
+          </div>
+     </div>
+<br><br>     
+<div class="row g-4" id="background">
+          <h4> Activités artistiques </h4>
+
+                <div class="col-md-12">
+                  {{ form_row(user_form.pratiqueArt,{
+                  'label' : 'Pratique artistique culturelle :',
+                  'placeholder' : 'Veuillez choisissez . .',
+                  'required' : false,
+                  }) }}
+                </div>
+
+                <div class="col-md-12">
+                  {{ form_row(user_form.otherComments,{
+                  'label' : 'Vos commentaires :',
+                  'required' : false,
+                  'placeholder' : 'Ici vous pouvez écrire vos commentaires ou remarques..',
+                  }) }}
+                </div>
+
+        </div>
+        
+
+<br>
+            {{ form_widget(user_form) }}
+              <button type="submit" class="btn btn-dark"  >Soumettre</button>
+
+            {{ form_end(user_form) }}
+
+      {% endif %}
+  
+  <br>
+
+
+
+</div>
+  <!-- pour changer la couleur de la navigation après avoir scrollé -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> <!-- appel de la librairie Javascript JQUERY -->
+
+<br>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+security:
+    enable_authenticator_manager: true
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+
+        
+        chain_provider:
+            chain:
+                providers: [in_memory, database, ldap]
+        in_memory:
+            memory:
+                users:
+                    __NO_USER__:
+                        password:
+                        roles: ROLE_ANON
+        database:
+            entity:
+                class: App\Entity\User
+                property: uid
+
+        ldap:
+            id: ldap_user_provider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        l3_firewall:
+            pattern: ^/
+            provider: chain_provider
+            security: true
+            guard:
+                authenticators:
+                    - cas.security.authentication.authenticator
+            logout:
+                path: /logout
+                success_handler: authentication_handler
+                invalidate_session: false
+            access_denied_handler: App\EventListener\AccessDeniedListener
+        main:
+            pattern: ^/
+            security: true
+            lazy: true
+            provider: chain_provider
+            guard:
+                authenticators:
+                    - cas.security.authentication.authenticator
+            access_denied_handler: App\EventListener\AccessDeniedListener
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        # - { path: ^/users/login, roles: PUBLIC_ACCESS }
+
+
+when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

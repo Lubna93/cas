@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage
+{% endblock %}
+
+{% block body %}
+	<style>
+
+
+	</style>
+
+<div class="px-4 my-3 text-start">
+    <h1 class="display-5 fw-bold text-body-emphasis text-center">About this repository</h1>
+    <div class="col-lg-8 mx-auto">
+      <p class=" mb-4">
+      To enable sign-in, integrate CAS authentication with LDAP server and connect to Apogee server (SOAP). Ensure the following prerequisites:
+      <br>
+      <ul>
+        <li><strong>CAS User Account:</strong> Users must be registered in your CAS.</li>
+        <li><strong>LDAP Server Access:</strong> Access the LDAP server with the required information.</li>
+        <li><strong>Apogee Server Access:</strong> Access the Apogee server with necessary details.</li>
+      </ul>
+      Feel free to ask if you have any questions. I'm here to help.
+      </p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
